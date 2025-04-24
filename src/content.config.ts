@@ -1,5 +1,6 @@
-import { glob } from "astro/loaders";
-import { defineCollection, z } from "astro:content";
+import { glob, file } from "astro/loaders";
+import { defineCollection, reference, z } from "astro:content";
+import { DEFAULT_TAG_CONFIG } from "./tags";
 
 const blog = defineCollection({
     // Load Markdown and MDX files in the `src/content/blog/` directory.
@@ -13,10 +14,25 @@ const blog = defineCollection({
         updatedDate: z.coerce.date().optional(),
         heroImage: z.string().optional(),
         heroColor: z.string().optional(),
-        tags: z.array(z.string()).optional(),
+        tags: z.array(reference("tags")).optional(),
         category: z.string().optional(),
         author: z.string().default("Leandro Gomez"),
     }),
 });
 
-export const collections = { blog };
+const tags = defineCollection({
+    loader: file("./src/content/tags.json"),
+    schema: z.object({
+        slug: z.string(),
+        label: z.string(),
+        colors: z
+            .object({
+                background: z.string(),
+                color: z.string(),
+            })
+            .optional()
+            .default(DEFAULT_TAG_CONFIG),
+    }),
+});
+
+export const collections = { blog, tags };

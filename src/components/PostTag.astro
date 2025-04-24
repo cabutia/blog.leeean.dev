@@ -1,10 +1,22 @@
 ---
-import { tagMap, DEFAULT_TAG_CONFIG } from "@/tags"
+import { tagMap, DEFAULT_TAG_CONFIG } from "@/tags";
+import type { CollectionEntry } from "astro:content";
 
-const { tag } = Astro.props
-const config = tagMap[tag.toLowerCase()] ?? DEFAULT_TAG_CONFIG
+type Props = {
+    tag: CollectionEntry<"tags">["data"];
+};
+const { tag } = Astro.props;
 ---
 
-<span class="text-sm px-3 py-1 rounded-sm border-b-2 border-b-current/20 group-hover:opacity-75 hover:opacity-100 hover:-translate-y-0.5 cursor-pointer transition-all" style={{backgroundColor: config.background, color: config.color, textShadow: '0px 1px 0px rgba(0,0,0,.2)'}}>
-    {tag}
-</span>
+<a href={`/tags/${tag.slug}`}>
+    <span
+        class="text-sm px-3 py-1 rounded-sm border-b-2 border-b-current/20 group-hover:opacity-75 hover:opacity-100 hover:-translate-y-0.5 cursor-pointer transition-all"
+        style={{
+            backgroundColor: tag.colors.background,
+            color: tag.colors.color,
+            textShadow: "0px 1px 0px rgba(0,0,0,.2)",
+        }}
+    >
+        {tag.label}
+    </span>
+</a>

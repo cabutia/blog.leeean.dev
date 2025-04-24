@@ -1,23 +1,34 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
-import { render } from 'astro:content';
+import { type CollectionEntry, getCollection } from "astro:content";
+import BlogPost from "../../layouts/BlogPost.astro";
+import { render } from "astro:content";
+import { DEFAULT_TAG_CONFIG } from "@/tags";
+import { defaultTag } from "@/utils/tags";
+import { getEntries } from "astro:content";
 
-export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
-}
-type Props = CollectionEntry<'blog'>;
+export const getStaticPaths = async () => {
+    const posts = await getCollection("blog");
+    return posts.map((post) => {
+        return {
+            params: { slug: post.id },
+            props: {
+                post,
+            },
+        };
+    });
+};
+type Props = {
+    post: CollectionEntry<"blog">;
+};
 
-const post = Astro.props;
+const { post } = Astro.props;
 const { Content } = await render(post);
-const headingsRegex = new RegExp(/(^|\n)(?:(?!```)[^\n]*\n)*?^#{1,6} (.+)$/gm)
-const headings = [...post.body.matchAll(headingsRegex)].map((match) => match[2].trim())
+const headingsRegex = new RegExp(/(^|\n)(?:(?!```)[^\n]*\n)*?^#{1,6} (.+)$/gm);
+const headings = [...post.body.matchAll(headingsRegex)].map((match) => match[2].trim());
+
+const tags = await getEntries(post.data.tags);
 ---
 
-<BlogPost {...post.data} headings={headings}>
-	<Content />
+<BlogPost {...post.data} postTags={tags} headings={headings}>
+    <Content />
 </BlogPost>

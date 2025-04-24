@@ -1,0 +1,22 @@
+[
+    {
+        "slug": "foo",
+        "label": "Foo"
+    },
+    {
+        "slug": "laravel",
+        "label": "Laravel",
+        "colors": {
+            "background": "#F05340",
+            "color": "#fff"
+        }
+    },
+    {
+        "slug": "php",
+        "label": "PHP",
+        "colors": {
+            "background": "#787cb5",
+            "color": "#fff"
+        }
+    }
+]
