@@ -14,8 +14,10 @@ type Props = CollectionEntry<'blog'>;
 
 const post = Astro.props;
 const { Content } = await render(post);
+const headingsRegex = new RegExp(/(^|\n)(?:(?!```)[^\n]*\n)*?^#{1,6} (.+)$/gm)
+const headings = [...post.body.matchAll(headingsRegex)].map((match) => match[2].trim())
 ---
 
-<BlogPost {...post.data}>
+<BlogPost {...post.data} headings={headings}>
 	<Content />
 </BlogPost>

@@ -1,0 +1,110 @@
+---
+import { PREF_ABOUT, PREF_CONTACT } from '@/consts'
+---
+
+<div class="fixed top-0 left-0 w-full z-30">
+    <div class="container mx-auto py-6 px-4 lg:px-6">
+        <div
+            class="h-16 w-full bg-background/70 backdrop-blur-xs rounded-full pl-6 pr-3 lg:px-6 border border-background"
+        >
+            <nav class="w-full h-16 flex justify-between items-center">
+                <a href="/" class="flex flex-col">
+                    <div class="flex items-center text-xl text-primary font-brand">
+                        <span class="font-bold leading-4">Leeean</span>
+                        <span class="leading-4 text-primary-200/50">.dev</span>
+                    </div>
+                    <span class="ml-auto text-primary-200 text-xs">A tech blog</span>
+                </a>
+
+                <div class="size-10 lg:hidden flex-center" id="mobile-menu-trigger">
+                    <!-- <Icon name="menu" class="size-8 text-primary-200" /> -->
+                </div>
+
+                <!-- Desktop menu -->
+                <div class="flex-center h-16 hidden justify-end lg:flex w-full pl-4">
+                    <a
+                        href={'/posts'}
+                        class="h-12 flex-center px-4 text-primary-300 hover:text-primary-50 font-medium"
+                    >
+                        Latest posts
+                    </a>
+                    <a
+                        href={''/* TODO: Implement */}
+                        class="h-12 flex-center px-4 text-primary-300 hover:text-primary-50 font-medium"
+                    >
+                        Categories
+                    </a>
+                    <a
+                        href={PREF_ABOUT}
+                        class="h-12 flex-center px-4 text-primary-300 hover:text-primary-50 font-medium"
+                    >
+                        About me
+                    </a>
+                    
+                    <div class="flex items-center">
+                        <a
+                        href={PREF_CONTACT}
+                        class="h-10 flex-center px-4 bg-primary-300 hover:bg-primary-200 text-primary-900 font-medium rounded-full relative -top-0.5 -right-3 shadow-md shadow-primary/40"
+                    >
+                        Let's chat!
+                    </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile menu -->
+<div class="fixed inset-0 top-32 p-4 z-30 lg:hidden transition-all opacity-0 invisible" id="mobile-menu">
+    <nav class="size-full flex flex-col bg-black/60 rounded-lg backdrop-blur p-8">
+        <a href={PREF_ABOUT} class="h-20 flex-center px-4 text-primary-200 text-2xl">
+            About me
+        </a>
+        
+        <a
+            href={PREF_CONTACT}
+            class="h-16 flex-center px-4 bg-primary-300 hover:bg-primary-200 text-primary-900 font-medium rounded-full mt-auto text-2xl"
+        >
+            Let's chat!
+        </a>
+    </nav>
+</div>
+
+<script>
+    const mobileMenuEl = document.querySelector("#mobile-menu");
+    const mobileMenuTrigger = document.querySelector("#mobile-menu-trigger");
+    const anchorElements = mobileMenuEl.querySelectorAll("a");
+
+    let showMobileMenu = false;
+
+    const updateMenuState = () => {
+        if (showMobileMenu) {
+            mobileMenuEl.classList.remove("opacity-0");
+            mobileMenuEl.classList.remove("invisible");
+            mobileMenuEl.classList.add("opacity-100");
+            mobileMenuEl.classList.add("visible");
+        } else {
+            mobileMenuEl.classList.remove("opacity-100");
+            mobileMenuEl.classList.remove("visible");
+            mobileMenuEl.classList.add("opacity-0");
+            mobileMenuEl.classList.add("invisible");
+        }
+    };
+
+    const hideMenu = () => (showMobileMenu = false);
+    const toggleMenu = () => (showMobileMenu = !showMobileMenu);
+
+    anchorElements.forEach((el) => {
+        el.addEventListener("click", () => {
+            hideMenu();
+            updateMenuState();
+        });
+    });
+
+    mobileMenuTrigger.addEventListener("click", () => {
+        console.log("trigger");
+        toggleMenu();
+        updateMenuState();
+    });
+</script>

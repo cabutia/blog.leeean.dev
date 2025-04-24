@@ -1,0 +1,166 @@
+---
+title: 'How to Build a Small REST API with Laravel 11'
+description:
+    In this post we're gonna learn how to build a simple and powerful 
+    REST API using Laravel 11. A step-by-step guide for developers using 
+    the latest Laravel features.
+pubDate: '2025-04-24'
+# heroImage: '/blog-placeholder-2.jpg'
+# heroColor: '#F05340'
+category: 'Tutorials'
+tags: ['Laravel', 'PHP', 'Rest API']
+---
+
+## Let's get started!
+
+Laravel has become one of the most preferred PHP frameworks for web application development, and its smooth syntax combined with robust features makes it an ideal choice for creating RESTful APIs. In this tutorial, we'll walk through the steps to create a simple REST API using Laravel 11, tailored specifically for tech enthusiasts and developers looking to enhance their skills.
+
+#### Prerequisites
+
+Before we begin, ensure you have the following installed on your machine:
+
+1. PHP (at least version 8.1)
+2. Composer
+3. Laravel 11
+4. A database (MySQL, SQLite, etc.)
+
+#### Step 1: Setting Up Laravel 
+
+Start by creating a new Laravel project. Open your terminal and run the following command:
+
+```bash
+composer create-project --prefer-dist laravel/laravel laravel-rest-api
+```
+
+Change your directory into the newly created project:
+
+```bash
+cd laravel-rest-api
+```
+
+Next, set up your environment variables. Copy `.env.example` to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+You need to configure your database settings in the `.env` file. Update the following lines to match your database configuration:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=[your_database_name]
+DB_USERNAME=[your_username]
+DB_PASSWORD=[your_password]
+```
+
+After updating the `.env` file, generate your application key:
+
+```bash
+php artisan key:generate
+```
+
+#### Step 2: Building the API Resource
+
+For this tutorial, we will create an API for managing products. Start by creating a Product model along with a migration:
+
+```bash
+php artisan make:model Product -m
+```
+
+Open the generated migration file in `database/migrations/`, and define your product schema:
+
+```php
+public function up()
+{
+    Schema::create('products', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+        $table->decimal('price', 8, 2);
+        $table->text('description');
+        $table->timestamps();
+    });
+}
+```
+
+Run the migration to create the `products` table:
+
+```bash
+php artisan migrate
+```
+
+#### Step 3: Creating the Controller
+
+Now, let's create a controller that will handle our REST API logic:
+
+```bash
+php artisan make:controller ProductController --api
+```
+
+In the `ProductController`, implement the following methods:
+
+```php
+public function index()
+{
+    return Product::all();
+}
+
+public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|max:255',
+        'price' => 'required|numeric',
+        'description' => 'nullable',
+    ]);
+    return Product::create($validated);
+}
+
+public function show($id)
+{
+    return Product::findOrFail($id);
+}
+
+public function update(Request $request, $id)
+{
+    $product = Product::findOrFail($id);
+    $validated = $request->validate([
+        'name' => 'required|max:255',
+        'price' => 'required|numeric',
+        'description' => 'nullable',
+    ]);
+    $product->update($validated);
+    return $product;
+}
+
+public function destroy($id)
+{
+    $product = Product::findOrFail($id);
+    $product->delete();
+    return response()->noContent();
+}
+```
+
+#### Step 4: Defining the Routes
+
+In `routes/api.php`, add the following routes to connect our controller methods:
+
+```php
+use App\Http\Controllers\ProductController;
+
+Route::apiResource('products', ProductController::class);
+```
+
+#### Step 5: Testing the API
+
+You can test your API using tools like Postman or Insomnia. Use the following endpoints to interact with your API:
+
+- **GET** `/api/products` - List all products
+- **POST** `/api/products` - Create a new product
+- **GET** `/api/products/{id}` - Retrieve a specific product
+- **PUT** `/api/products/{id}` - Update a product
+- **DELETE** `/api/products/{id}` - Delete a product
+
+#### Conclusion
+
+Congratulations! You've successfully set up a REST API using Laravel 11. This tutorial provides a foundational blueprint to build upon. As you continue enhancing the API, consider implementing features such as authentication, rate limiting, and pagination for a more robust solution. Enjoy coding!
