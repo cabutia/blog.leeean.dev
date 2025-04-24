@@ -41,6 +41,7 @@ const { title, description, author, image = '/blog-placeholder-1.jpg' } = Astro.
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 <meta name="author" content={author ?? 'Leandro Gomez'}> 
+<meta name="image" property="og:image" content={new URL(image, Astro.url)}> 
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
