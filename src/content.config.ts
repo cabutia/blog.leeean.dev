@@ -15,8 +15,16 @@ const blog = defineCollection({
         heroImage: z.string().optional(),
         heroColor: z.string().optional(),
         tags: z.array(reference("tags")).optional(),
-        category: z.string().optional(),
+        category: reference("categories"),
         author: z.string().default("Leandro Gomez"),
+    }),
+});
+
+const categories = defineCollection({
+    loader: file("./src/content/categories.json"),
+    schema: z.object({
+        slug: z.string(),
+        label: z.string(),
     }),
 });
 
@@ -35,4 +43,4 @@ const tags = defineCollection({
     }),
 });
 
-export const collections = { blog, tags };
+export const collections = { blog, tags, categories };

@@ -7,10 +7,15 @@ import BaseLayout from "./BaseLayout.astro";
 import Container from "@/components/Container.astro";
 import PostContentLayout from "./PostContentLayout.astro";
 import PostTag from "@/components/PostTag.astro";
+import { PERSONAL_URL } from "@/consts";
 
-type Props = CollectionEntry<"blog">["data"] & { headings: string[]; postTags: CollectionEntry<"tags">[] };
+type Props = CollectionEntry<"blog">["data"] & {
+    headings: string[];
+    postTags: CollectionEntry<"tags">[];
+    postCategory: CollectionEntry<"categories">;
+};
 
-const { title, description, pubDate, updatedDate, heroImage, author, postTags, headings } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, author, postTags, headings, postCategory } = Astro.props;
 ---
 
 <BaseLayout>
@@ -31,7 +36,9 @@ const { title, description, pubDate, updatedDate, heroImage, author, postTags, h
             <Container>
                 <div class="w-full flex flex-col relative z-20 gap-4">
                     <span class="text-primary-200/50">
-                        Published <FormattedDate date={pubDate} /> by <a href="#" class="text-primary-200">{author}</a>
+                        Published <FormattedDate date={pubDate} /> by <a href={PERSONAL_URL} class="text-primary-200">
+                            {author}
+                        </a> in <span class="text-primary-200">{postCategory.data.label}</span>
                     </span>
 
                     <div class="w-full lg:w-2/3 flex flex-col">

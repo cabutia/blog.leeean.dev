@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = async () => {
+    const categories = await getCollection("categories");
+    return categories.map((category) => {
+        return {
+            params: { category: category.data.slug },
+            props: {
+                category,
+            },
+        };
+    });
+};
+
+type Props = {
+    category: CollectionEntry<"categories">;
+};
+
+const { category } = Astro.props;
+
+const posts = await getCollection("blog", ({ data }) => data.category.id === category.data.slug);
+---
+
+<h1>Category [{category.data.label}]</h1>
+
+{posts.map((post) => <div>{post.data.title}</div>)}

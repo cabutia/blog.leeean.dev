@@ -1,0 +1,15 @@
+---
+type Props = {
+    class?: string;
+    as?: string;
+    featured?: boolean;
+};
+
+const { class: classNames, as = "article", featured } = Astro.props;
+
+const Tag = as;
+---
+
+<Tag
+    class={`bg-white border border-gray-200 rounded-xl shadow-2xl shadow-gray-50 hover:border-primary-400 cursor-pointer flex-shrink-0 ${classNames}`}
+/>
