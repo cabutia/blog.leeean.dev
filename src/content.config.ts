@@ -33,6 +33,7 @@ const tags = defineCollection({
     schema: z.object({
         slug: z.string(),
         label: z.string(),
+        icon: z.string(),
         colors: z
             .object({
                 background: z.string(),

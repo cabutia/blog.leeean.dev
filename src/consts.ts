@@ -6,3 +6,12 @@ export const SITE_TITLE = "Astro Blog";
 export const SITE_DESCRIPTION = "Welcome to my website!";
 export const PREF_ABOUT = `${PERSONAL_URL}/about`;
 export const PREF_CONTACT = `${PERSONAL_URL}/#contact`;
+
+export const PAGES = {
+    HOME: "/",
+    LATEST_POSTS: "/posts",
+    POST_LINK: "/posts/:id",
+    CATEGORY_LINK: "/posts/:categoryId",
+    TAGS: "/tags",
+    TAG_LINK: "/tags/:id",
+};

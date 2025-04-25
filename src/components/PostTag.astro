@@ -1,22 +1,24 @@
 ---
+import { PAGES } from "@/consts";
 import { tagMap, DEFAULT_TAG_CONFIG } from "@/tags";
+import { url } from "@/utils/url";
 import type { CollectionEntry } from "astro:content";
 
 type Props = {
-    tag: CollectionEntry<"tags">["data"];
+    tag: CollectionEntry<"tags">;
 };
 const { tag } = Astro.props;
 ---
 
-<a href={`/tags/${tag.slug}`}>
+<a href={url(PAGES.TAG_LINK, { id: tag.id })}>
     <span
         class="text-sm px-3 py-1 rounded-sm border-b-2 border-b-current/20 group-hover:opacity-75 hover:opacity-100 hover:-translate-y-0.5 cursor-pointer transition-all"
         style={{
-            backgroundColor: tag.colors.background,
-            color: tag.colors.color,
+            backgroundColor: tag.data.colors.background,
+            color: tag.data.colors.color,
             textShadow: "0px 1px 0px rgba(0,0,0,.2)",
         }}
     >
-        {tag.label}
+        {tag.data.label}
     </span>
 </a>

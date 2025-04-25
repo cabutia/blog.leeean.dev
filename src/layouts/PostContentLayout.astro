@@ -1,34 +1,30 @@
 ---
+import type { MarkdownHeading } from "astro";
+
 const hasRelated = false; /* Feature flag */
 
 type Props = {
-    headings: string[];
+    headings: MarkdownHeading[];
 };
 
 const { headings } = Astro.props;
-const slugifyHeading = (str: string) => {
-    return str
-        .toLowerCase() // Make lowercase
-        .trim() // Remove surrounding whitespace
-        .replace(/[`~!@#$%^&*()+=<>?/\\|[\]{}"'.:,]/g, "") // Remove punctuation
-        .replace(/\s+/g, "-") // Replace spaces with dashes
-        .replace(/-+/g, "-") // Remove duplicate dashes
-        .replace(/^-+|-+$/g, ""); // Trim dashes from start/end
-};
 ---
 
 <div class={`px-6 pt-4 lg:pt-24 ${hasRelated ? "w-full lg:px-24" : "container mx-auto"}`}>
     <div class={`w-full flex flex-wrap lg:flex-nowrap gap-6 relative z-20 pt-6 ${hasRelated ? "justify-center" : ""}`}>
         <!-- Table of contents -->
-        <div class="w-full h-full max-w-xs flex flex-col gap-4 lg:sticky top-28">
+        <div
+            class="w-full h-full max-w-xs flex flex-col gap-4 lg:sticky top-28"
+            class:list={!headings.length && ["opacity-0"]}
+        >
             <h3 class="font-medium uppercase opacity-70 text-sm">In this page</h3>
             <ol class="flex flex-col gap-2 pl-4 opacity-80 group">
                 {
                     headings.map((heading, i) => (
                         <li>
-                            <a href={`#${slugifyHeading(heading)}`}>
+                            <a href={`#${heading.slug}`}>
                                 <span class="opacity-50">{i + 1}. </span>
-                                {heading}
+                                {heading.text}
                             </a>
                         </li>
                     ))

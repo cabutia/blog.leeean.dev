@@ -1,5 +1,6 @@
 ---
-import { PREF_ABOUT, PREF_CONTACT } from "@/consts";
+import { PAGES, PREF_ABOUT, PREF_CONTACT } from "@/consts";
+import { url } from "@/utils/url";
 ---
 
 <div class="fixed top-0 left-0 w-full z-30">
@@ -8,7 +9,7 @@ import { PREF_ABOUT, PREF_CONTACT } from "@/consts";
             class="h-16 w-full bg-background/70 backdrop-blur-xs rounded-full pl-6 pr-3 lg:px-6 border border-background"
         >
             <nav class="w-full h-16 flex justify-between items-center font-brand">
-                <a href="/" class="flex flex-col">
+                <a href={url(PAGES.HOME)} class="flex flex-col">
                     <div class="flex items-center text-xl text-primary font-brand">
                         <span class="font-bold leading-4">Leeean</span>
                         <span class="leading-4 text-primary-200/50">.dev</span>
@@ -22,7 +23,10 @@ import { PREF_ABOUT, PREF_CONTACT } from "@/consts";
 
                 <!-- Desktop menu -->
                 <div class="flex-center h-16 hidden justify-end lg:flex w-full pl-4">
-                    <a href={"/posts"} class="h-12 flex-center px-4 text-primary-300 hover:text-primary-50 font-medium">
+                    <a
+                        href={url(PAGES.LATEST_POSTS)}
+                        class="h-12 flex-center px-4 text-primary-300 hover:text-primary-50 font-medium"
+                    >
                         Latest posts
                     </a>
                     <a

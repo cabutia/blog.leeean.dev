@@ -6,6 +6,7 @@ import { DEFAULT_TAG_CONFIG } from "@/tags";
 import { defaultTag } from "@/utils/tags";
 import { getEntries } from "astro:content";
 import { getEntry } from "astro:content";
+import type { MarkdownHeading } from "astro";
 
 export const getStaticPaths = async () => {
     const posts = await getCollection("blog");
@@ -23,9 +24,7 @@ type Props = {
 };
 
 const { post } = Astro.props;
-const { Content } = await render(post);
-const headingsRegex = new RegExp(/(^|\n)(?:(?!```)[^\n]*\n)*?^#{1,6} (.+)$/gm);
-const headings = [...post.body.matchAll(headingsRegex)].map((match) => match[2].trim());
+const { Content, headings } = await render(post);
 
 const tags = await getEntries(post.data.tags);
 const category = await getEntry(post.data.category);

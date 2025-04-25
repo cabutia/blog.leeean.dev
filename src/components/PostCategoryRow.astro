@@ -1,9 +1,19 @@
 ---
-const { title } = Astro.props;
+import { PAGES } from "@/consts";
+import { url } from "@/utils/url";
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+    category: CollectionEntry<"categories">;
+};
+const { category } = Astro.props;
 ---
 
 <div class="flex flex-col gap-6">
-    <h3 class="font-brand text-2xl text-primary-950">{title}</h3>
+    <div class="w-full flex items-center gap-4">
+        <h3 class="font-brand text-2xl text-primary-950">{category.data.label}</h3>
+        <a href={url(PAGES.CATEGORY_LINK, { categoryId: category.id })}>View all</a>
+    </div>
     <div class="w-full flex gap-6 overflow-x-hidden">
         <div class="flex gap-6 w-full overflow-x-auto snap-x snap-mandatory">
             <slot />

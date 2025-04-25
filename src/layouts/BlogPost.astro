@@ -7,10 +7,12 @@ import BaseLayout from "./BaseLayout.astro";
 import Container from "@/components/Container.astro";
 import PostContentLayout from "./PostContentLayout.astro";
 import PostTag from "@/components/PostTag.astro";
-import { PERSONAL_URL } from "@/consts";
+import { PAGES, PERSONAL_URL } from "@/consts";
+import type { MarkdownHeading } from "astro";
+import { url } from "@/utils/url";
 
 type Props = CollectionEntry<"blog">["data"] & {
-    headings: string[];
+    headings: MarkdownHeading[];
     postTags: CollectionEntry<"tags">[];
     postCategory: CollectionEntry<"categories">;
 };
@@ -38,7 +40,12 @@ const { title, description, pubDate, updatedDate, heroImage, author, postTags, h
                     <span class="text-primary-200/50">
                         Published <FormattedDate date={pubDate} /> by <a href={PERSONAL_URL} class="text-primary-200">
                             {author}
-                        </a> in <span class="text-primary-200">{postCategory.data.label}</span>
+                        </a> in <a
+                            href={url(PAGES.CATEGORY_LINK, { categoryId: postCategory.id })}
+                            class="text-primary-200"
+                        >
+                            {postCategory.data.label}
+                        </a>
                     </span>
 
                     <div class="w-full lg:w-2/3 flex flex-col">
@@ -47,7 +54,7 @@ const { title, description, pubDate, updatedDate, heroImage, author, postTags, h
                     </div>
 
                     <div class="self-start flex flex-wrap gap-2 group">
-                        {postTags.filter((t) => t).map(({ data }) => <PostTag tag={data} />)}
+                        {postTags.filter((t) => t).map((tag) => <PostTag tag={tag} />)}
                     </div>
                 </div>
             </Container>

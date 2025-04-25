@@ -6,7 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 import cloudflare from "@astrojs/cloudflare";
 import { fileURLToPath } from "url";
 import path from "path";
-import { glob, globSync } from "fs";
+import icon from "astro-icon";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -22,5 +22,13 @@ export default defineConfig({
         },
     },
     adapter: cloudflare(),
-    integrations: [mdx(), sitemap()],
+    integrations: [
+        mdx(),
+        sitemap(),
+        icon({
+            svgoOptions: {
+                multipass: true,
+            },
+        }),
+    ],
 });

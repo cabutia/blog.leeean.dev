@@ -1,15 +1,73 @@
 ---
+import { Debug } from "astro:components";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import FormattedDate from "./FormattedDate.astro";
+import { Icon } from "astro-icon/components";
+import PostCardTag from "./PostCardTag.astro";
+import { url } from "@/utils/url";
+import { PAGES } from "@/consts";
+
 type Props = {
     class?: string;
     as?: string;
     featured?: boolean;
+    post: CollectionEntry<"blog">;
+    showDate?: boolean;
+    showActions?: boolean;
 };
 
-const { class: classNames, as = "article", featured } = Astro.props;
+const { class: classNames, as = "article", featured, post, showDate = true, showActions = true } = Astro.props;
+const tagIds = post.data.tags.map((tag) => tag.id);
+const tags: CollectionEntry<"tags">[] = await getCollection("tags", (tag) => {
+    return tagIds.includes(tag.id);
+});
+const tag = tags[0];
 
 const Tag = as;
 ---
 
 <Tag
-    class={`bg-white border border-gray-200 rounded-xl shadow-2xl shadow-gray-50 hover:border-primary-400 cursor-pointer flex-shrink-0 ${classNames}`}
-/>
+    class={`bg-white border border-gray-200 rounded-xl shadow-2xl shadow-gray-50 hover:border-primary-400 flex-shrink-0 ${classNames}`}
+>
+    <div class="size-full flex flex-col p-4 gap-4">
+        {
+            showDate && (
+                <div class="w-full text-sm text-gray-500 -my-1 uppercase">
+                    <FormattedDate date={post.data.pubDate} />
+                </div>
+            )
+        }
+        <div class="w-full flex gap-4">
+            <div
+                class="size-18 rounded-md flex-shrink-0 flex-center shadow-lg shadow-current/40"
+                style={{ backgroundColor: tag.data.colors.background, color: tag.data.colors.background }}
+            >
+                <Icon name={tag.data.icon} class="size-12" style={{ color: tag.data.colors.color }} />
+            </div>
+            <div class="w-full flex flex-col">
+                <span class="leading-6 font-semibold text-lg line-clamp-2" title={post.data.title}>
+                    {post.data.title}
+                </span>
+                <div class="w-full flex flex-wrap gap-1">
+                    {tags.map((tag) => <PostCardTag tag={tag} />)}
+                </div>
+            </div>
+        </div>
+        <div class="w-full mt-auto">
+            <p class="line-clamp-3 text-gray-600" title={post.data.description}>
+                {post.data.description}
+                {post.data.description}
+            </p>
+        </div>
+
+        {
+            showActions && (
+                <div class="w-full flex justify-end items-center gap-4 ">
+                    <a href="#">Share</a>
+                    <a href={url(PAGES.POST_LINK, { id: post.id })}>Read more</a>
+                </div>
+            )
+        }
+    </div>
+</Tag>
