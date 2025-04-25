@@ -1287,10 +1287,17 @@
 .markdown-body h6 {
     color: var(--color-gray-800);
     scroll-margin-top: calc(var(--spacing) * 28);
+    font-family: var(--font-brand);
+    font-weight: var(--font-weight-light);
+    letter-spacing: 1px;
 }
 
 .markdown-body p code {
     background-color: var(--color-orange-100);
     border: 1px solid var(--color-orange-200);
     color: var(--color-orange-600);
+}
+
+.markdown-body pre {
+    margin-bottom: calc(var(--spacing) * 12);
 }
