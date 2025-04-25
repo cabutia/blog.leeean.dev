@@ -11,16 +11,6 @@ import PostTag from "@/components/PostTag.astro";
 type Props = CollectionEntry<"blog">["data"] & { headings: string[]; postTags: CollectionEntry<"tags">[] };
 
 const { title, description, pubDate, updatedDate, heroImage, author, postTags, headings } = Astro.props;
-
-const slugifyHeading = (str: string) => {
-    return str
-        .toLowerCase() // Make lowercase
-        .trim() // Remove surrounding whitespace
-        .replace(/[`~!@#$%^&*()+=<>?/\\|[\]{}"'.:,]/g, "") // Remove punctuation
-        .replace(/\s+/g, "-") // Replace spaces with dashes
-        .replace(/-+/g, "-") // Remove duplicate dashes
-        .replace(/^-+|-+$/g, ""); // Trim dashes from start/end
-};
 ---
 
 <BaseLayout>
@@ -44,7 +34,7 @@ const slugifyHeading = (str: string) => {
                         Published <FormattedDate date={pubDate} /> by <a href="#" class="text-primary-200">{author}</a>
                     </span>
 
-                    <div class={`${"w-2/3 flex flex-col" /*bg-black/20 px-12 py-8 rounded-2xl */}`}>
+                    <div class="w-full lg:w-2/3 flex flex-col">
                         <h1 class="text-4xl text-primary-100 mb-6">{title}</h1>
                         <p class="text-2xl text-primary-100/80 font-normal">{description}</p>
                     </div>
@@ -55,23 +45,8 @@ const slugifyHeading = (str: string) => {
                 </div>
             </Container>
         </div>
-        <PostContentLayout>
-            <div class="w-full h-full max-w-xs flex flex-col gap-4 sticky top-28">
-                <h3 class="font-medium uppercase opacity-70 text-sm">In this page</h3>
-                <ol class="flex flex-col gap-2 pl-4 opacity-80 group">
-                    {
-                        headings.map((heading, i) => (
-                            <li>
-                                <a href={`#${slugifyHeading(heading)}`}>
-                                    <span class="opacity-50">{i + 1}. </span>
-                                    {heading}
-                                </a>
-                            </li>
-                        ))
-                    }
-                </ol>
-            </div>
-            <div class="w-full max-w-4xl px-6 pb-12 rounded-xl -mt-20">
+        <PostContentLayout headings={headings}>
+            <div class="w-full max-w-4xl lg:px-6 pb-12 rounded-xl -mt-2">
                 <div class="text-gray-700">
                     {
                         heroImage && (
