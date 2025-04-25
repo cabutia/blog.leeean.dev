@@ -1,28 +1,29 @@
 {
-  "name": "blog-leeean-dev",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "prepare": "husky"
-  },
-  "dependencies": {
-    "@astrojs/cloudflare": "^12.5.1",
-    "@astrojs/mdx": "^4.2.5",
-    "@astrojs/rss": "^4.0.11",
-    "@astrojs/sitemap": "^3.3.1",
-    "@tailwindcss/vite": "^4.1.4",
-    "astro": "^5.7.5",
-    "tailwindcss": "^4.1.4"
-  },
-  "devDependencies": {
-    "@types/node": "^22.14.1",
-    "husky": "^9.1.7",
-    "prettier": "^3.5.3",
-    "prettier-plugin-astro": "^0.14.1",
-    "wrangler": "^4.13.1"
-  }
+    "name": "blog-leeean-dev",
+    "type": "module",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro",
+        "prepare": "husky",
+        "test:integration": "npx tsc ./test.ts"
+    },
+    "dependencies": {
+        "@astrojs/cloudflare": "^12.5.1",
+        "@astrojs/mdx": "^4.2.5",
+        "@astrojs/rss": "^4.0.11",
+        "@astrojs/sitemap": "^3.3.1",
+        "@tailwindcss/vite": "^4.1.4",
+        "astro": "^5.7.5",
+        "tailwindcss": "^4.1.4"
+    },
+    "devDependencies": {
+        "@types/node": "^22.14.1",
+        "husky": "^9.1.7",
+        "prettier": "^3.5.3",
+        "prettier-plugin-astro": "^0.14.1",
+        "wrangler": "^4.13.1"
+    }
 }

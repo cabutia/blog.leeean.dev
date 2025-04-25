@@ -6,12 +6,13 @@ import tailwindcss from "@tailwindcss/vite";
 import cloudflare from "@astrojs/cloudflare";
 import { fileURLToPath } from "url";
 import path from "path";
+import { glob, globSync } from "fs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://astro.build/config
 export default defineConfig({
-    site: "https://example.com",
+    site: "https://blog.leeean.dev",
     vite: {
         plugins: [tailwindcss()],
         resolve: {
